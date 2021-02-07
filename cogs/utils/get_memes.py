@@ -1,7 +1,9 @@
 import json
+import os
+import re
+from datetime import timedelta
 
 import praw
-import os
 
 
 def get_meme():
@@ -23,3 +25,13 @@ def get_meme():
                             with open('cogs/json_files/posted.json', 'w') as f:
                                 json.dump(posted, f)
                             yield post
+
+
+UNITS = {'s': 'seconds', 'm': 'minutes', 'h': 'hours', 'd': 'days', 'w': 'weeks'}
+
+
+def convert_to_seconds(s):
+    return int(timedelta(**{
+        UNITS.get(m.group('unit').lower(), 'seconds'): int(m.group('val'))
+        for m in re.finditer(r'(?P<val>\d+)(?P<unit>[smhdw]?)', s, flags=re.I)
+    }).total_seconds())

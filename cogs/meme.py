@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands, tasks
 
-from cogs.utils.get_memes import get_meme
+from cogs.utils.get_memes import get_meme, convert_to_seconds
 
 
 class Memey(commands.Cog):
@@ -20,7 +20,7 @@ class Memey(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def start(self, ctx):
+    async def start(self, ctx, *, args: convert_to_seconds):
         self.automeme = tasks.loop(seconds=10)(self.automemer)
         await self.automeme.start(ctx)
         await ctx.send('enjoy memes :smirk:')
