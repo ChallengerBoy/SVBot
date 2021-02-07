@@ -21,7 +21,7 @@ class Memey(commands.Cog):
 
     @commands.command()
     async def start(self, ctx):
-        self.automeme = tasks.loop(self.automemer, seconds=10)
+        self.automeme = tasks.loop(seconds=10)(self.automemer)
         await self.automeme.start(ctx)
         await ctx.send('enjoy memes :smirk:')
 
