@@ -9,6 +9,7 @@ class Memey(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.post = get_meme()
+        self.automeme = None
 
     async def post_meme(self, ctx):
         post = next(self.post)
@@ -20,6 +21,7 @@ class Memey(commands.Cog):
 
     @commands.command()
     async def start(self, ctx):
+        self.automeme = tasks.loop(self.automemer, seconds=10)
         await self.automeme.start(ctx)
         await ctx.send('enjoy memes :smirk:')
 
@@ -28,8 +30,7 @@ class Memey(commands.Cog):
         self.automeme.stop()
         await ctx.send('stopped memes ')
 
-    @tasks.loop(seconds=10)
-    async def automeme(self, ctx):
+    async def automemer(self, ctx):
         await self.post_meme(ctx)
 
     @commands.Cog.listener()
