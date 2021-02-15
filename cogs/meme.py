@@ -4,15 +4,19 @@ from discord.ext import commands, tasks
 
 from cogs.utils.get_memes import get_meme, convert_to_seconds
 
+import asyncio
 
 class Memey(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.post = get_meme()
+        #self.post = get_meme()
         self.automeme = None
 
+    def __new__(cls):
+        
+
     async def post_meme(self, ctx):
-        post = next(self.post)
+        post = await next(self.post)
         embed = discord.Embed(title=post.title, colour=discord.Colour.random(),
                               url="https://www.reddit.com" + post.permalink)
         embed.set_image(url=post.url)

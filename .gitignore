@@ -2,3 +2,4 @@
 sv_venv/*
 .env
 .vscode
+__pycache__/*
